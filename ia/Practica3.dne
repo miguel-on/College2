@@ -1,0 +1,79 @@
+// ~->[DNET-1]->~
+
+// File created by an unlicensed user using Netica 1.12
+// on Jun 04, 2007 at 19:29:20.
+
+bnet Practica3 {
+whenchanged = 1180981699;
+
+visual V1 {
+	defdispform = BELIEFBARS;
+	nodelabeling = TITLE;
+	nodefont = font {shape= "Arial"; size= 10;};
+	linkfont = font {shape= "Arial"; size= 9;};
+	windowposn = (-4, -30, 760, 448);
+	resolution = 72;
+	drawingbounds = (1044, 770);
+	showpagebreaks = FALSE;
+	usegrid = TRUE;
+	gridspace = (6, 6);
+	PrinterSetting A {
+		margins = (1270, 1270, 1270, 1270);
+		landscape = FALSE;
+		magnify = 1;
+		};
+	};
+
+node Congestion {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (True, False);
+	parents = ();
+	probs = 
+		// True         False        
+		  (0.2,         0.8);
+	numcases = 1;
+	whenchanged = 1180981540;
+	belief = (0.2, 0.8);
+	visual V1 {
+		center = (162, 36);
+		height = 1;
+		};
+	};
+
+node Ruta {
+	kind = DECISION;
+	discrete = TRUE;
+	chance = DETERMIN;
+	states = (A, B);
+	parents = ();
+	functable = 
+		   B;
+	whenchanged = 1180981579;
+	visual V1 {
+		center = (162, 288);
+		height = 2;
+		};
+	};
+
+node Minutos {
+	kind = UTILITY;
+	discrete = FALSE;
+	measure = RATIO;
+	chance = DETERMIN;
+	parents = (Congestion, Ruta);
+	functable = 
+		                  // Congestion Ruta 
+		 ((60,            // True       A    
+		   50),           // True       B    
+		  (30,            // False      A    
+		   40));          // False      B    ;
+	whenchanged = 1180981699;
+	visual V1 {
+		center = (162, 138);
+		height = 3;
+		};
+	};
+ElimOrder = (Congestion, Ruta);
+};

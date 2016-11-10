@@ -1,0 +1,5 @@
+Practia de redes Bayesianas.
+
+a)Probabilidad de que haya escarcha sabiendo que watson ha tenido un accidente. 94.9%
+b)Porbabilidad que holmes haya tenido un accidente sabiendo que watson lo ha tenido.76.4%
+c)probabilidad de que holmes haya tenido un accidente sabienco que watson lo ha tenido y que la carretera no tenia escarcha 10%

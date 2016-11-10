@@ -1,0 +1,84 @@
+// ~->[DNET-1]->~
+
+// File created by an unlicensed user using Netica 1.12
+// on May 21, 2007 at 19:52:35.
+
+bnet holmes_watson {
+whenchanged = 1179780747;
+
+visual V1 {
+	defdispform = BELIEFBARS;
+	nodelabeling = TITLE;
+	nodefont = font {shape= "Arial"; size= 10;};
+	linkfont = font {shape= "Arial"; size= 9;};
+	windowposn = (-4, -30, 760, 448);
+	scrollposn = (74, 0);
+	resolution = 72;
+	drawingbounds = (1044, 770);
+	showpagebreaks = FALSE;
+	usegrid = TRUE;
+	gridspace = (6, 6);
+	PrinterSetting A {
+		margins = (1270, 1270, 1270, 1270);
+		landscape = FALSE;
+		magnify = 1;
+		};
+	};
+
+node Escarcha {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (True, False);
+	parents = ();
+	probs = 
+		// True         False        
+		  (0.7,         0.3);
+	numcases = 1;
+	whenchanged = 1179780747;
+	belief = (0.7, 0.3);
+	visual V1 {
+		center = (420, 78);
+		height = 1;
+		};
+	};
+
+node Watson_Accidente {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (True, False);
+	parents = (Escarcha);
+	probs = 
+		// True         False          // Escarcha 
+		 ((0.8,         0.2),          // True     
+		  (0.1,         0.9));         // False    ;
+	numcases = 1;
+	whenchanged = 1179780747;
+	belief = (0.59, 0.41);
+	visual V1 {
+		center = (648, 78);
+		height = 3;
+		};
+	};
+
+node Holmes_Accidente {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (True, False);
+	parents = (Escarcha);
+	probs = 
+		// True         False          // Escarcha 
+		 ((0.8,         0.2),          // True     
+		  (0.1,         0.9));         // False    ;
+	numcases = 1;
+	whenchanged = 1179780083;
+	belief = (0.59, 0.41);
+	visual V1 {
+		center = (174, 78);
+		height = 2;
+		};
+	};
+ElimOrder = (Watson_Accidente, Escarcha, Holmes_Accidente);
+};

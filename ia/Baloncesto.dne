@@ -1,0 +1,161 @@
+// ~->[DNET-1]->~
+
+// File created by an unlicensed user using Netica 1.12
+// on Jun 04, 2007 at 19:57:25.
+
+bnet Baloncesto {
+whenchanged = 1180983418;
+
+visual V2 {
+	defdispform = BELIEFBARS;
+	nodelabeling = TITLE;
+	nodefont = font {shape= "Arial"; size= 10;};
+	linkfont = font {shape= "Arial"; size= 9;};
+	windowposn = (-4, -30, 760, 448);
+	resolution = 72;
+	drawingbounds = (1044, 770);
+	showpagebreaks = FALSE;
+	usegrid = TRUE;
+	gridspace = (6, 6);
+	PrinterSetting A {
+		margins = (1270, 1270, 1270, 1270);
+		landscape = FALSE;
+		magnify = 1;
+		};
+	};
+
+node Forma {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (Buena, Baja);
+	parents = ();
+	probs = 
+		// Buena        Baja         
+		  (0.7,         0.3);
+	whenchanged = 1180983009;
+	belief = (0.7, 0.3);
+	visual V2 {
+		center = (90, 204);
+		height = 7;
+		};
+	};
+
+node Tapona {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (Tapona, NoTapona);
+	parents = (Forma);
+	probs = 
+		// Tapona       NoTapona       // Forma 
+		 ((0.4,         0.6),          // Buena 
+		  (0.1,         0.9));         // Baja  ;
+	whenchanged = 1180983075;
+	belief = (0.31, 0.69);
+	visual V2 {
+		center = (90, 126);
+		height = 6;
+		};
+	};
+
+node Tirar {
+	kind = DECISION;
+	discrete = TRUE;
+	chance = DETERMIN;
+	states = (T3, T2);
+	parents = ();
+	functable = 
+		   T3;
+	whenchanged = 1180982666;
+	visual V2 {
+		center = (480, 138);
+		height = 1;
+		};
+	};
+
+node Atiempo {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (True, False);
+	parents = (Tirar);
+	probs = 
+		// True         False          // Tirar 
+		 ((0.9,         0.1),          // T3    
+		  (0.3,         0.7));         // T2    ;
+	numcases = 1;
+	whenchanged = 1180983418;
+	belief = (0.6, 0.4);
+	visual V2 {
+		center = (288, 27);
+		height = 2;
+		link 1 {
+			path = ((439, 111), (336, 55));
+			};
+		};
+	};
+
+node Tira {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (True, False);
+	parents = (Tapona, Atiempo);
+	probs = 
+		// True         False           // Tapona   Atiempo 
+		(((0,           1),             // Tapona   True    
+		  (0,           1)),            // Tapona   False   
+		 ((1,           0),             // NoTapona True    
+		  (0,           1)));           // NoTapona False   ;
+	whenchanged = 1180983136;
+	belief = (0.414, 0.586);
+	visual V2 {
+		center = (90, 30);
+		height = 5;
+		};
+	};
+
+node Acierto {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (True, False);
+	parents = (Tira, Tirar);
+	probs = 
+		// True         False           // Tira  Tirar 
+		(((0.25,        0.75),          // True  T3    
+		  (0.6,         0.4)),          // True  T2    
+		 ((0,           1),             // False T3    
+		  (0,           1)));           // False T2    ;
+	whenchanged = 1180983300;
+	belief = (0.139725, 0.860275);
+	visual V2 {
+		center = (294, 138);
+		height = 4;
+		};
+	};
+
+node Utilidad {
+	kind = UTILITY;
+	discrete = FALSE;
+	measure = RATIO;
+	chance = DETERMIN;
+	parents = (Tirar, Acierto);
+	functable = 
+		                  // Tirar Acierto 
+		 ((3,             // T3    True    
+		   0),            // T3    False   
+		  (2,             // T2    True    
+		   0));           // T2    False   ;
+	whenchanged = 1180983322;
+	visual V2 {
+		center = (396, 222);
+		height = 3;
+		link 2 {
+			path = ((326, 166), (385, 213));
+			};
+		};
+	};
+ElimOrder = (Forma, Tapona, Atiempo, Tira, Acierto, Tirar);
+};
